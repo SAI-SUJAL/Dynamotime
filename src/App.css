@@ -1,0 +1,17 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+  min-height: 100vh;
+}
+
+.content {
+  margin-top: 20px; /* Adjust as needed */
+}
+
+.footer {
+  background-color: #f8f9fa; /* Adjust as needed */
+  padding: 10px;
+  text-align: center;
+  width: 100%;
+}

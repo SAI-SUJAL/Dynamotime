@@ -1,0 +1,321 @@
+/* Apply default styles */
+body {
+  background-color: #fff;
+  color: #333;
+}
+
+/* Styles for the root container of the application */
+.time-zone-converter {
+  width: 80vw;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  gap: 20px;
+}
+
+/* Styles for the controls section */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 20px;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper input {
+  padding: 10px 30px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.search-icon {
+  font-size: 16px;
+  color: blue;
+  position: absolute;
+  margin-left: 10px;
+}
+
+.date-picker-wrapper {
+  margin-right: 10px;
+}
+
+/* Button styles */
+.btn {
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  background-color: #6200ee;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 5px;
+}
+
+.btn:hover {
+  background-color: #3700b3;
+}
+
+.btn:not(.clicked) {
+  background-color: rgb(241, 130, 148);
+}
+
+.btn:not(.clicked):hover {
+  background-color: rgb(233, 73, 73);
+}
+
+/* Suggestions section styles */
+.suggestions {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.suggestions-item {
+  padding: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  border: 1px solid transparent;
+  transition: background-color 0.3s;
+}
+
+.suggestions-item:hover {
+  background-color: pink;
+  border-color: #999;
+}
+
+/* Time zones section styles */
+.time-zones {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.selected-timezone {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 10px;
+  position: relative;
+  background-color: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.selected-timezone-info {
+  margin-right: 20px;
+}
+
+.selected-timezone-info b {
+  margin-right: 5px;
+}
+
+/* Slider styles */
+.slider-container {
+  position: relative;
+  width: 100%;
+}
+
+.slider-label {
+  position: absolute;
+  bottom: 14px;
+  width: calc(100% / 8);
+  text-align: center;
+  font-size: 14px;
+  padding: 0 10px;
+}
+
+.slider {
+  width: 100%;
+  margin-top: 10px;
+  position: relative;
+}
+
+.slider::-webkit-slider-thumb,
+.slider::-moz-range-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: #6200ee;
+}
+
+/* Delete icon styles */
+.selected-timezone-delete {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  color: #999;
+  font-size: 16px;
+}
+
+.selected-timezone-delete:hover {
+  color: #ff0000;
+}
+
+/* Shareable link container styles */
+.shareable-link-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+/* Shareable link modal styles */
+.shareable-link-modal {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 80%;
+}
+
+/* Shareable link styles */
+.shareable-link {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.shareable-link a {
+  flex-grow: 1;
+  margin-right: 10px;
+  word-break: break-all;
+}
+
+.shareable-link button {
+  margin-top: 0;
+}
+
+/* Dark mode styles */
+body.dark-mode {
+  background-color: #333;
+  color: #fff;
+}
+
+.time-zone-converter.dark-mode {
+  background-color: #333;
+  color: #fff;
+}
+
+.time-zone-converter.dark-mode .input-wrapper input {
+  border-color: #555;
+  background-color: #444;
+  color: #fff;
+}
+
+.time-zone-converter.dark-mode .search-icon {
+  color: #ff7777;
+}
+
+.time-zone-converter.dark-mode .react-datepicker-wrapper,
+.time-zone-converter.dark-mode .react-datepicker__input-container {
+  background-color: #444;
+  color: #fff;
+}
+
+.time-zone-converter.dark-mode .btn {
+  background-color: #bb86fc;
+  color: #333;
+}
+
+.time-zone-converter.dark-mode .btn:hover {
+  background-color: #7c4dff;
+}
+
+.time-zone-converter.dark-mode .suggestions-item {
+  background-color: #444;
+  border-color: #555;
+  color: #fff;
+}
+
+.time-zone-converter.dark-mode .suggestions-item:hover {
+  background-color: #555;
+  border-color: #777;
+}
+
+.time-zone-converter.dark-mode .selected-timezone {
+  border-color: #555;
+  background-color: #444;
+  color: #fff;
+}
+
+.time-zone-converter.dark-mode .slider-label {
+  color: #ccc;
+}
+
+.time-zone-converter.dark-mode .slider::-webkit-slider-thumb,
+.time-zone-converter.dark-mode .slider::-moz-range-thumb {
+  background-color: #bb86fc;
+}
+
+.time-zone-converter.dark-mode .selected-timezone-delete {
+  color: #ccc;
+}
+
+.time-zone-converter.dark-mode .selected-timezone-delete:hover {
+  color: #ff7777;
+}
+
+.time-zone-converter.dark-mode .shareable-link-modal {
+  background-color: #444;
+  color: #fff;
+}
+
+.selected-timezone:hover .selected-timezone-info::after {
+  display: none;
+}
+
+.popup-message {
+  display: none;
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(235, 15, 15, 0.8);
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  z-index: 1;
+}
+
+.selected-timezone:hover .popup-message {
+  display: block;
+}
+
+.points-display {
+  margin-left: auto;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.points-display span {
+  color: green;
+}

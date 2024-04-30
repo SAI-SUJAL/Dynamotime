@@ -1,0 +1,49 @@
+/* styles.css */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .navbar {
+    background-color: #343a40;
+    padding: 10px;
+  }
+  
+  .navbar ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .navbar ul li {
+    display: inline-block;
+    margin-right: 20px;
+    cursor: pointer;
+    color: #fff;
+  }
+  
+  .navbar ul li:hover {
+    text-decoration: underline;
+  }
+  
+  .content {
+    margin-top: 20px;
+  }
+  
+  .timezone-slider {
+    margin-bottom: 20px;
+  }
+  
+  .timezone-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .timezone-item {
+    margin-bottom: 10px;
+  }
+  
+  .add-timezone-form input[type='text'] {
+    margin-right: 10px;
+  }
+  
