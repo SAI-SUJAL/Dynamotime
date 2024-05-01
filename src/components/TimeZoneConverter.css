@@ -311,7 +311,8 @@ body.dark-mode {
 }
 
 .points-display {
-  margin-left: auto;
+  padding: auto;
+  margin-left: 100;
   font-size: 16px;
   font-weight: bold;
 }

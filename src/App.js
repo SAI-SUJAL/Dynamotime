@@ -14,9 +14,9 @@ function App() {
       <div className="content">
         <TimeZoneConverter/>
       </div>
-      <footer className="footer">
+    
         <p><b>By Sai Sujal Shamarthi @2024 All Rights Reserved.</b></p>
-      </footer>
+    
     </div>
   );
 }
