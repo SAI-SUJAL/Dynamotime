@@ -101,7 +101,7 @@ const handleTooltipToggle = (value) => {
       return updatedTimezones;
     });
     // Toggle dark mode if slider value is between 6 and 20
-    setDarkMode(value >= 6 && value <= 20);
+    setDarkMode(value < 6 || value > 20);
 };
 
   const handleDateChange = (newDate) => {
