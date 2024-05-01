@@ -22,10 +22,27 @@ const TimeZoneConverter = () => {
     return storedDate ? new Date(storedDate) : new Date();
   });
   const [showShareableLink, setShowShareableLink] = useState(false);
-  const [darkMode, setDarkMode] = useState(false); // State for dark mode
+  const [darkMode, setDarkMode] = useState(false);
+  const [userPoints, setUserPoints] = useState(0);
+  const [showTooltip, setShowTooltip] = useState(false);
+  
+ 
+
+const handleTooltipToggle = (value) => {
+  setShowTooltip(value);
+};
+// State for dark mode
 
   const toggleDarkMode = () => {
-    setDarkMode(prevMode => !prevMode);
+    setDarkMode(prevMode => {
+      const newMode = !prevMode;
+      if (newMode) {
+        setUserPoints(prevPoints => prevPoints + 10); // Reward 10 points for enabling dark mode
+      } else {
+        setUserPoints(prevPoints => prevPoints - 5); // Deduct 5 points for disabling dark mode
+      }
+      return newMode;
+    });
   };
 
   useEffect(() => {
@@ -61,26 +78,31 @@ const TimeZoneConverter = () => {
     const currentTime = moment().tz(timezone).format('YYYY-MM-DD HH:mm:ss');
     setSelectedTimezones((prev) => [...prev, { timezone, currentTime, sliderValue: moment().tz(timezone).hours() }]);
     setSuggestions([]);
+    setUserPoints(prevPoints => prevPoints + 10);
   };
 
   const handleDeleteTimeZone = (index) => {
     setSelectedTimezones((prev) => prev.filter((_, i) => i !== index));
+    setUserPoints(prevPoints => prevPoints - 5);
   };
 
   const handleSliderChange = (index, value) => {
     setSelectedTimezones((prev) => {
       const diff = value - prev[index].sliderValue;
-      const updatedTimezones = prev.map((timezone) => ({
+      const updatedTimezones = prev.map((timezone, i) => ({
         ...timezone,
-        sliderValue: timezone.sliderValue + diff,
+        sliderValue: i === index ? value : timezone.sliderValue,
         currentTime: moment(timezone.currentTime)
           .tz(timezone.timezone)
           .add(diff, 'hours')
           .format('YYYY-MM-DD HH:mm:ss'),
       }));
+      setUserPoints(prevPoints => prevPoints + 15);
       return updatedTimezones;
     });
-  };
+    // Toggle dark mode if slider value is between 6 and 20
+    setDarkMode(value >= 6 && value <= 20);
+};
 
   const handleDateChange = (newDate) => {
     setDate(newDate);
@@ -95,6 +117,7 @@ const TimeZoneConverter = () => {
           .format('YYYY-MM-DD HH:mm:ss'),
       }))
     );
+    setUserPoints(prevPoints => prevPoints + 3);
     updateSuggestions(newDate);
   };
 
@@ -108,6 +131,7 @@ const TimeZoneConverter = () => {
 
   const handleReverseTimezones = () => {
     setSelectedTimezones((prev) => [...prev].reverse());
+    setUserPoints(prevPoints => prevPoints + 20);
   };
 
   const handleScheduleMeet = () => {
@@ -115,6 +139,7 @@ const TimeZoneConverter = () => {
       alert("Please add time zones first.");
       return;
     }
+    setUserPoints(prevPoints => prevPoints + 25);
   
     const meetingLink = `https://meet.google.com/new?startTime=${moment(selectedTimezones[0].currentTime).tz('UTC').format('YYYY-MM-DDTHH:mm:ss')}`;
     window.open(meetingLink, '_blank');
@@ -126,6 +151,7 @@ const TimeZoneConverter = () => {
       navigator.clipboard.writeText(link);
       setShowShareableLink(false);
     }
+    setUserPoints(prevPoints => prevPoints + 30);
   };
   
   const getShareableLink = () => {
@@ -135,6 +161,7 @@ const TimeZoneConverter = () => {
   
     const timezonesQueryString = selectedTimezones.map((tz) => `${tz.timezone}:${moment(tz.currentTime).format('HH:mm:ss')}`).join(',');
     const shareableUrl = `${window.location.origin}?date=${moment(date).format('YYYY-MM-DD')}&timezones=${timezonesQueryString}`;
+    
     return shareableUrl;
   };
   
@@ -156,6 +183,9 @@ const TimeZoneConverter = () => {
   return (
     <div className={`time-zone-converter ${darkMode ? 'dark-mode' : ''}`}>
       <div className="controls">
+      <div className="points-display">
+          <span>Points: {userPoints}</span>
+        </div>
         <div className="input-wrapper">
           <input
             type="text"
@@ -185,6 +215,7 @@ const TimeZoneConverter = () => {
           Shareable Link
         </button>
       </div>
+      
       <div className="suggestions">
         {suggestions.map((timezone) => (
           <div
@@ -202,48 +233,56 @@ const TimeZoneConverter = () => {
             <div className="time-zones" {...provided.droppableProps} ref={provided.innerRef}>
               {selectedTimezones.map((suggestion, index) => (
                 <Draggable key={index} draggableId={`timezone-${index}`} index={index}>
-                  {(provided) => (
-                    <div
-                      className="selected-timezone"
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      ref={provided.innerRef}
-                      title={`Current time in ${suggestion.timezone}: ${moment(suggestion.currentTime).format('YYYY-MM-DD HH:mm:ss')}`}
-                    >
-                      <div className="selected-timezone-info">
-                        <b>Location:</b> {suggestion.timezone}<br />
-                        <b>Date:</b> {moment(suggestion.currentTime).format('YYYY-MM-DD')}<br />
-                        <b>Time:</b> {moment(suggestion.currentTime).format('HH:mm:ss')}
-                      </div>
-                      <div className="slider-container">
-                        {sliderLabelPositions.map((position, hour) => (
-                          <div key={hour} className="slider-label" style={{ left: position }}>
-                            {formatSliderLabel(hour)}
-                          </div>
-                        ))}
-                        <input
-                          type="range"
-                          min={0}
-                          max={23}
-                          step={1}
-                          value={suggestion.sliderValue}
-                          onChange={(e) => handleSliderChange(index, parseInt(e.target.value))}
-                          className="slider"
-                        />
-                      </div>
-                      <FaTimes
-                        className="selected-timezone-delete"
-                        onClick={() => handleDeleteTimeZone(index)}
-                      />
-                    </div>
-                  )}
-                </Draggable>
+  {(provided) => (
+    <div
+      className="selected-timezone"
+      {...provided.draggableProps}
+      {...provided.dragHandleProps}
+      ref={provided.innerRef}
+      title={`Current time in ${suggestion.timezone}: ${moment(suggestion.currentTime).format('YYYY-MM-DD HH:mm:ss')}`}
+      onMouseEnter={() => handleTooltipToggle(true)}
+      onMouseLeave={() => handleTooltipToggle(false)}
+    >
+      <div className="selected-timezone-info">
+        <b>Location:</b> {suggestion.timezone}<br />
+        <b>Date:</b> {moment(suggestion.currentTime).format('YYYY-MM-DD')}<br />
+        <b>Time:</b> {moment(suggestion.currentTime).format('HH:mm:ss')}
+      </div>
+      <div className="slider-container">
+        {sliderLabelPositions.map((position, hour) => (
+          <div key={hour} className="slider-label" style={{ left: position }}>
+            {formatSliderLabel(hour)}
+          </div>
+        ))}
+        <input
+          type="range"
+          min={0}
+          max={23}
+          step={1}
+          value={suggestion.sliderValue}
+          onChange={(e) => handleSliderChange(index, parseInt(e.target.value))}
+          className="slider"
+        />
+      </div>
+      <FaTimes
+        className="selected-timezone-delete"
+        onClick={() => handleDeleteTimeZone(index)}
+      />
+      {showTooltip && (
+        <div className="tooltip">
+          <p>{`Current time in ${suggestion.timezone}: ${moment(suggestion.currentTime).format('YYYY-MM-DD HH:mm:ss')}`}</p>
+        </div>
+      )}
+    </div>
+  )}
+</Draggable>
               ))}
               {provided.placeholder}
             </div>
           )}
         </Droppable>
       </DragDropContext>
+      
       {showShareableLink && (
         <div className="shareable-link-container">
           <div className="shareable-link-modal">

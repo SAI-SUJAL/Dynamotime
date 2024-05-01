@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 //import { SearchInput, DatePickerWrapper, TimezoneSuggestions, SelectedTimezone, ShareableLinkModal, Button, DarkModeToggle, MeetButton } from './TimezoneComponents';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import TimeZoneConverter from './components/TimeZoneConverterr';
+import TimeZoneConverter from './components/TimeZoneConverter';
 
 
 function App() {
